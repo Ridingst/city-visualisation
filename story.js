@@ -4,7 +4,7 @@
   'use strict';
   const D = window.STORY_DATA;
   const RIVALS = ['mufc', 'lfc', 'afc', 'cfc', 'thfc'];
-  const CLUBS = { city: 'Man City', mufc: 'Man United', lfc: 'Liverpool', afc: 'Arsenal', cfc: 'Chelsea', thfc: 'Spurs', other14: 'Other 14 clubs · average' };
+  const CLUBS = { city: 'Man City', mufc: 'Man United', lfc: 'Liverpool', afc: 'Arsenal', cfc: 'Chelsea', thfc: 'Spurs', other14: 'Average of the other 14 clubs' };
   const disputedSeasons = Object.keys(D.disputed);
   const adjusted = Object.fromEntries(disputedSeasons.map(s => [s, D.revenue.city[s] - D.disputed[s]]));
   const ownerTotal = disputedSeasons.reduce((sum, s) => sum + D.disputed[s], 0);
@@ -57,8 +57,8 @@
   });
   makeBars('gap-bars', [clubRow('mufc', '2008-09'), clubRow('city', '2008-09')], 300);
   makeBars('rule-bars', [
-    { label: 'Established club', total: 1005, valueLabel: '£1,005m', segments: [{ cls: 'rival', value: 900 }, { cls: 'allowance', value: 105 }], detail: '£900m income + £105m permitted loss' },
-    { label: 'Challenger', total: 405, valueLabel: '£405m', segments: [{ cls: 'rival', value: 300 }, { cls: 'allowance', value: 105 }], detail: '£300m income + £105m permitted loss' }
+    { label: 'Club earning £900m', total: 1005, valueLabel: '£1,005m to spend', segments: [{ cls: 'rival', value: 900 }, { cls: 'allowance', value: 105 }] },
+    { label: 'Club earning £300m', total: 405, valueLabel: '£405m to spend', segments: [{ cls: 'rival', value: 300 }, { cls: 'allowance', value: 105 }] }
   ], 1005);
   const comparisonClubs = ['city', ...RIVALS].sort((a, b) => D.revenue[b]['2017-18'] - D.revenue[a]['2017-18']);
   makeBars('comparison-bars', comparisonClubs.map(id => clubRow(id, '2017-18', id === 'city')), 600);
@@ -177,7 +177,6 @@
       if (link.hash === '#' + pick.id) link.setAttribute('aria-current', 'step');
       else link.removeAttribute('aria-current');
     });
-    document.getElementById('scene-progress').textContent = String(steps.indexOf(pick) + 1).padStart(2, '0') + ' / 05';
     if (current === 'timeline') requestAnimationFrame(drawTimeline);
   }
   let scrollFrame = 0;
